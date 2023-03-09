@@ -162,4 +162,8 @@ func main() {
 	fmt.Println(color.GreenString("成功"))
 
 	fmt.Println(color.GreenString("\n全ての処理が完了しました。https://github.com/sevenc-nanashi/pjsekai-overlay#readme を参考に、ファイルをAviUtlにインポートして下さい。"))
+  fmt.Print(color.CyanString("Enterキーを押して終了します。"))
+
+  fmt.Scanln()
+
 }
