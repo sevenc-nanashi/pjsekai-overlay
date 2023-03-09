@@ -6,6 +6,9 @@ on:
     paths:
       - '.github/workflows/build.yml'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
