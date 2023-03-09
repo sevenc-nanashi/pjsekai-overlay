@@ -27,7 +27,7 @@ jobs:
       - name: Copy assets
         run: cp -r assets bin/assets
       - name: Build zip
-        run: 7z a -tzip pjsekai-overlay.zip bin
+        run: 7z a -tzip pjsekai-overlay.zip bin/*
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
