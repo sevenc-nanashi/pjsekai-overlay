@@ -84,7 +84,7 @@ func main() {
 	fmt.Println(color.GreenString("成功"))
 
 	formattedOutDir := filepath.Join(filepath.Dir(executablePath), strings.Replace(outDir, "_chartId_", chartId, -1))
-	fmt.Printf("出力先ディレクトリ: %s\n", color.CyanString(filepath.Dir(executablePath)))
+	fmt.Printf("出力先ディレクトリ: %s\n", color.CyanString(filepath.Dir(formattedOutDir)))
 
 	fmt.Print("ジャケットをダウンロード中... ")
 	err = pjsekaioverlay.DownloadCover(chartSource, chart, formattedOutDir)
