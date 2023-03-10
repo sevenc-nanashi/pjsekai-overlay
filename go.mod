@@ -19,6 +19,7 @@ require (
 require (
 	github.com/fatih/color v1.14.1
 	github.com/iamacarpet/go-win64api v0.0.0-20221230174906-cb41e6e774e8
+	github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/srinathh/gokilo v0.0.0-20200224143053-07425ce1c9d2

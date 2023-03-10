@@ -41,6 +41,8 @@ github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpO
 github.com/iamacarpet/go-win64api v0.0.0-20210311141720-fe38760bed28/go.mod h1:oGJx9dz0Ny7HC7U55RZ0Smd6N9p3hXP/+hOFtuYrAxM=
 github.com/iamacarpet/go-win64api v0.0.0-20221230174906-cb41e6e774e8 h1:amydJqxRNNH0OHOpzVw1cFh1MFihZy0/0gbPoPqdU50=
 github.com/iamacarpet/go-win64api v0.0.0-20221230174906-cb41e6e774e8/go.mod h1:B7zFQPAznj+ujXel5X+LUoK3LgY6VboCdVYHZNn7gpg=
+github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213 h1:qGQQKEcAR99REcMpsXCp3lJ03zYT1PkRd3kQGPn9GVg=
+github.com/k0kubun/go-ansi v0.0.0-20180517002512-3bf9e2903213/go.mod h1:vNUNkEQ1e29fT/6vq2aBdFsgNPmy8qMdSay1npru+Sw=
 github.com/lithammer/dedent v1.1.0 h1:VNzHMVCBNG1j0fh3OrsFRkVUwStdDArbgBWoPAffktY=
 github.com/lithammer/dedent v1.1.0/go.mod h1:jrXYCQtgg0nJiN+StA2KgR7w6CiQNv9Fd/Z9BP0jIOc=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=
