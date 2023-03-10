@@ -39,7 +39,7 @@ func TryInstallObject() bool {
 		defer sekaiObjFile.Close()
 		var sekaiObjDecoder = japanese.ShiftJIS.NewDecoder()
 		var existingSekaiObj, _ = io.ReadAll(transform.NewReader(sekaiObjFile, sekaiObjDecoder))
-		if strings.Contains(string(existingSekaiObj), "--version: "+Version) {
+		if strings.Contains(string(existingSekaiObj), "--version: "+Version) && Version != "0.0.0" {
 			return false
 		}
 	}

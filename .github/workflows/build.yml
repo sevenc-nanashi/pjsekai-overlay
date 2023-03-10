@@ -20,6 +20,14 @@ jobs:
         with:
           go-version: "1.20"
           cache: true
+      - name: Get version
+        id: get_version
+        run: |
+          echo VERSION=$(echo $GITHUB_REF | cut -d / -f 3) >> $GITHUB_OUTPUT
+          echo IS_PRERELEASE=$(echo $GITHUB_REF | grep -q "-" && echo true || echo false) >> $GITHUB_OUTPUT
+      - name: Replace version
+        run: |
+          sed -i "s/const Version = \"0.0.0\"/const Version = \"${{ steps.get_version.outputs.VERSION }}\"/g" ./pkg/pjsekaioverlay/version.go
       - name: Create package directory
         run: mkdir -p release
       - name: Build binary
@@ -27,10 +35,11 @@ jobs:
       - name: Copy assets
         run: cp -r assets release/assets
       - name: Build zip
-        run: 7z a -tzip pjsekai-overlay.zip release\*
+        run: cd release && zip -r ../pjsekai-overlay.zip .
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          prerelease: ${{ steps.get_version.outputs.IS_PRERELEASE }}
           files: |
             pjsekai-overlay.zip
