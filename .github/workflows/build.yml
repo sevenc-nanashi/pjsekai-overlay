@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -32,6 +32,9 @@ jobs:
         run: mkdir -p release
       - name: Build binary
         run: go build -o release/pjsekai-overlay.exe .
+        env:
+          GOOS: windows
+          GOARCH: amd64
       - name: Copy assets
         run: cp -r assets release/assets
       - name: Build zip
