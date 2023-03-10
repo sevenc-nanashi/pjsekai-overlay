@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"os"
@@ -10,9 +11,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/pjsekaioverlay"
+  "github.com/srinathh/gokilo/rawmode"
 )
 
-func main() {
+func origMain(isOptionSpecified bool) {
 	Title()
 
 	var skipAviutlInstall bool
@@ -26,8 +28,6 @@ func main() {
 
 	var apCombo bool
 	flag.BoolVar(&apCombo, "ap-combo", true, "コンボのAP表示を有効にします。")
-
-	isOptionSpecified := len(os.Args) > 1
 
 	flag.Usage = func() {
 		fmt.Println("Usage: pjsekai-overlay [譜面ID] [オプション]")
@@ -162,10 +162,17 @@ func main() {
 	fmt.Println(color.GreenString("成功"))
 
 	fmt.Println(color.GreenString("\n全ての処理が完了しました。https://github.com/sevenc-nanashi/pjsekai-overlay#readme を参考に、ファイルをAviUtlにインポートして下さい。"))
+}
+
+func main() {
+	isOptionSpecified := len(os.Args) > 1
+
+	origMain(isOptionSpecified)
+
 	if !isOptionSpecified {
-		fmt.Print(color.CyanString("Enterキーを押して終了します。"))
+		fmt.Print(color.CyanString("\n何かキーを押すと終了します..."))
 
-		fmt.Scanln()
+    rawmode.Enable()
+		bufio.NewReader(os.Stdin).ReadByte()
 	}
-
 }
