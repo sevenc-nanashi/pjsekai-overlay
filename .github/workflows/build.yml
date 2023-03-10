@@ -21,13 +21,13 @@ jobs:
           go-version: "1.20"
           cache: true
       - name: Create package directory
-        run: mkdir -p bin
+        run: mkdir -p release
       - name: Build binary
-        run: go build -o bin/pjsekai-overlay.exe .
+        run: go build -o release/pjsekai-overlay.exe .
       - name: Copy assets
-        run: cp -r assets bin/assets
+        run: cp -r assets release/assets
       - name: Build zip
-        run: 7z a -tzip pjsekai-overlay.zip bin/*
+        run: 7z a -tzip pjsekai-overlay.zip release\*
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
