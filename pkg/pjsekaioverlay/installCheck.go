@@ -43,7 +43,14 @@ func TryInstallObject() bool {
 			return false
 		}
 	}
-	var sekaiObjFile, _ = os.Create(sekaiObjPath)
+  err := os.MkdirAll(filepath.Join(aviutlPath, "Plugins", "script"), 0755)
+  if err != nil {
+    return false
+  }
+  sekaiObjFile, err := os.Create(sekaiObjPath)
+  if err != nil {
+    return false
+  }
 	defer sekaiObjFile.Close()
 
 	var sekaiObjWriter = transform.NewWriter(sekaiObjFile, japanese.ShiftJIS.NewEncoder())
