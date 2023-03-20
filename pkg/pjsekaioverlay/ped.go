@@ -44,6 +44,8 @@ var WEIGHT_MAP = map[int]float64{
 	24: 0,   // longSfx
 	25: 0.1, // damageNote
 	26: 0.2, // traceSlideStart
+	27: 0,   // hispeedAllocator
+	28: 0,   // hispeed
 }
 
 func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, power int) []PedFrame {
