@@ -67,19 +67,19 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 
 	score := 0
 	entityCounter := 0
-	sortedEntities := levelData.Entities
-	sort.SliceStable(sortedEntities, func(i, j int) bool {
-		if len(sortedEntities[i].Data.Values) == 0 || len(sortedEntities[j].Data.Values) == 0 {
-			return true
-		}
+  noteEntities := ([]sonolus.LevelDataEntity{})
 
-		return levelData.Entities[i].Data.Values[0] < levelData.Entities[j].Data.Values[0]
-	})
-	for _, entity := range sortedEntities {
+  for _, entity := range levelData.Entities {
 		weight := WEIGHT_MAP[entity.Archetype]
-		if weight == 0 {
-			continue
-		}
+		if weight > 0.0 && len(entity.Data.Values) > 0 {
+      noteEntities = append(noteEntities, entity)
+    }
+  }
+	sort.SliceStable(noteEntities, func(i, j int) bool {
+		return noteEntities[i].Data.Values[0] < noteEntities[j].Data.Values[0]
+	})
+	for _, entity := range noteEntities {
+		weight := WEIGHT_MAP[entity.Archetype]
 		entityCounter += 1
 
 		score += int(

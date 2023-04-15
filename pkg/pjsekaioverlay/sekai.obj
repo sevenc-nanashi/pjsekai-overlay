@@ -50,7 +50,7 @@ if obj.track1 ~= 1 or not PED_DATA or PED_DATA.file ~= file then
     debug_print("[pjsekai-exo] Couldn't find ped data file")
   end
 end
-if PED_DATA.version == "{version}" or "{version}" == "{ver".."sion}" then
+if PED_DATA.version == "{version}" or "{version}" == "0.0.0" then
   OFFSET = obj.track0
   PED_DATA.current = {
     time = 0,
