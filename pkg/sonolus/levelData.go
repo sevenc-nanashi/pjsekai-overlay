@@ -1,13 +1,17 @@
 package sonolus
 
 type LevelData struct {
-	Entities []LevelDataEntity `json:"entities"`
+	BgmOffset float64           `json:"bgmOffset"`
+	Entities  []LevelDataEntity `json:"entities"`
 }
 
 type LevelDataEntity struct {
-	Archetype int `json:"archetype"`
-	Data      struct {
-		Values []float64 `json:"values"`
-	} `json:"data"`
+	Archetype string                 `json:"archetype"`
+	Data      []LevelDataEntityValue `json:"data"`
 }
 
+type LevelDataEntityValue struct {
+	Name  string
+	Value float64
+	Ref   string
+}

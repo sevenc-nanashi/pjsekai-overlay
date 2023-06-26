@@ -16,36 +16,102 @@ type PedFrame struct {
 	Score int
 }
 
-var WEIGHT_MAP = map[int]float64{
-	0:  0,   // initialization
-	1:  0,   // stage
-	2:  0,   // input
-	3:  1,   // tapNote
-	4:  1,   // flickNote
-	5:  1,   // slideStart
-	6:  0.1, // slideTick
-	7:  1,   // slideEnd
-	8:  1,   // slideEndFlick
-	9:  0,   // slideConnector
-	10: 2,   // criticalTapNote
-	11: 3,   // criticalFlickNote
-	12: 2,   // criticalSlideStart
-	13: 0.2, // criticalSlideTick
-	14: 2,   // criticalSlideEnd
-	15: 3,   // criticalSlideEndFlick
-	16: 0,   // criticalSlideConnector
-	17: 0.1, // slideHiddenTick
-	18: 0.2, // traceNote
-	19: 1,   // traceFlick
-	20: 0.5, // criticalTraceNote
-	21: 1.5, // criticalTraceFlick
-	22: 1,   // traceNdFlick
-	23: 0,   // judgeRenderer
-	24: 0,   // longSfx
-	25: 0.1, // damageNote
-	26: 0.2, // traceSlideStart
-	27: 0,   // hispeedAllocator
-	28: 0,   // hispeed
+type BpmChange struct {
+	Beat float64
+	Bpm  float64
+}
+
+var WEIGHT_MAP = map[string]float64{
+	"#BPM_CHANGE":    0,
+	"Initialization": 0,
+	"InputManager":   0,
+	"Stage":          0,
+
+	"NormalTapNote":   1,
+	"CriticalTapNote": 3,
+
+	"NormalFlickNote":   1,
+	"CriticalFlickNote": 3,
+
+	"NormalSlideStartNote":   1,
+	"CriticalSlideStartNote": 2,
+
+	"NormalSlideEndNote":   1,
+	"CriticalSlideEndNote": 2,
+
+	"NormalSlideEndFlickNote":   1,
+	"CriticalSlideEndFlickNote": 3,
+
+	"IgnoredSlideTickNote":  0,
+	"NormalSlideTickNote":   0.1,
+	"CriticalSlideTickNote": 0.1,
+
+	"HiddenSlideTickNote":           0.1,
+	"NormalAttachedSlideTickNote":   0.1,
+	"CriticalAttachedSlideTickNote": 0.1,
+
+	"NormalSlideConnector":   0,
+	"CriticalSlideConnector": 0,
+
+	"SimLine": 0,
+
+	"NormalSlotEffect":       0,
+	"SlideSlotEffect":        0,
+	"FlickSlotEffect":        0,
+	"CriticalSlotEffect":     0,
+	"NormalSlotGlowEffect":   0,
+	"SlideSlotGlowEffect":    0,
+	"FlickSlotGlowEffect":    0,
+	"CriticalSlotGlowEffect": 0,
+
+	"NormalTraceNote":   0.1,
+	"CriticalTraceNote": 0.2,
+
+	"NormalTraceSlotEffect":     0,
+	"NormalTraceSlotGlowEffect": 0,
+
+	"DamageNote":           0.1,
+	"DamageSlotEffect":     0,
+	"DamageSlotGlowEffect": 0,
+
+	"NormalTraceFlickNote":         0.5,
+	"CriticalTraceFlickNote":       0.5,
+	"NonDirectionalTraceFlickNote": 0.5,
+
+	"TraceSlideStartNote": 0.2,
+	"TraceSlideEndNote":   0.2,
+
+	"TimeScaleGroup":  0,
+	"TimeScaleChange": 0,
+}
+
+func getValueFromData(data []sonolus.LevelDataEntityValue, name string) (float64, error) {
+	for _, value := range data {
+		if value.Name == name {
+			return value.Value, nil
+		}
+	}
+	return 0, fmt.Errorf("value not found: %s", name)
+}
+
+func getTimeFromBpmChanges(bpmChanges []BpmChange, beat float64) float64 {
+	ret := 0.0
+	for i, bpmChange := range bpmChanges {
+		if i == len(bpmChanges)-1 {
+			ret += (beat - bpmChange.Beat) * (60 / bpmChange.Bpm)
+			break
+		}
+		nextBpmChange := bpmChanges[i+1]
+		if beat >= bpmChange.Beat && beat < nextBpmChange.Beat {
+			ret += (beat - bpmChange.Beat) * (60 / bpmChange.Bpm)
+			break
+		} else if beat >= nextBpmChange.Beat {
+			ret += (nextBpmChange.Beat - bpmChange.Beat) * (60 / bpmChange.Bpm)
+		} else {
+			break
+		}
+	}
+	return ret
 }
 
 func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, power int) []PedFrame {
@@ -63,20 +129,34 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 
 	frames := make([]PedFrame, 0, int(weightedNotesCount)+1)
 	frames = append(frames, PedFrame{Time: 0, Score: 0})
+	bpmChanges := ([]BpmChange{})
 	levelFax := float64(rating-5)*0.005 + 1
 
 	score := 0
 	entityCounter := 0
-  noteEntities := ([]sonolus.LevelDataEntity{})
+	noteEntities := ([]sonolus.LevelDataEntity{})
 
-  for _, entity := range levelData.Entities {
+	for _, entity := range levelData.Entities {
 		weight := WEIGHT_MAP[entity.Archetype]
-		if weight > 0.0 && len(entity.Data.Values) > 0 {
-      noteEntities = append(noteEntities, entity)
-    }
-  }
+		if weight > 0.0 && len(entity.Data) > 0 {
+			noteEntities = append(noteEntities, entity)
+		} else if entity.Archetype == "#BPM_CHANGE" {
+			beat, err := getValueFromData(entity.Data, "#BEAT")
+			if err != nil {
+				continue
+			}
+			bpm, err := getValueFromData(entity.Data, "#BPM")
+			if err != nil {
+				continue
+			}
+			bpmChanges = append(bpmChanges, BpmChange{
+				Beat: beat,
+				Bpm:  bpm,
+			})
+		}
+	}
 	sort.SliceStable(noteEntities, func(i, j int) bool {
-		return noteEntities[i].Data.Values[0] < noteEntities[j].Data.Values[0]
+		return noteEntities[i].Data[0].Value < noteEntities[j].Data[0].Value
 	})
 	for _, entity := range noteEntities {
 		weight := WEIGHT_MAP[entity.Archetype]
@@ -91,8 +171,12 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 				(float64(entityCounter/100)/100 + 1) * // Combo fax
 				1, // Skill fax (Always 1)
 		)
+		beat, err := getValueFromData(entity.Data, "#BEAT")
+		if err != nil {
+			continue
+		}
 		frames = append(frames, PedFrame{
-			Time:  entity.Data.Values[0],
+			Time:  getTimeFromBpmChanges(bpmChanges, beat) + levelData.BgmOffset,
 			Score: score,
 		})
 	}

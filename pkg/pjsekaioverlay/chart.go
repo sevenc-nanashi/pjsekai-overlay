@@ -62,6 +62,13 @@ func DetectChartSource(chartId string) (Source, error) {
 			Color: 0xcda879,
 			Host:  "fp.sevenc7c.com",
 		}
+	} else if strings.HasPrefix(chartId, "ptlv-") {
+		source = Source{
+			Id:    "potato_leaves",
+			Name:  "Potato Leaves",
+			Color: 0x88cb7f,
+			Host:  "ptlv.sevenc7c.com",
+		}
 	} else if strings.HasPrefix(chartId, "chcy-") {
 		source = Source{
 			Id:    "chart_cyanvas",
@@ -164,14 +171,14 @@ func DownloadCover(source Source, level sonolus.LevelInfo, destPath string) erro
 }
 func DownloadBackground(source Source, level sonolus.LevelInfo, destPath string) error {
 	var backgroundUrl string
-  var err error
+	var err error
 	if source.Id == "sweetpotato" {
 		backgroundUrl = fmt.Sprintf("https://image-gen.sevenc7c.com/generate/%s", level.Name)
 	} else {
-    backgroundUrl, err = sonolus.JoinUrl("https://"+source.Host, level.UseBackground.Item.Image.Url)
+		backgroundUrl, err = sonolus.JoinUrl("https://"+source.Host, level.UseBackground.Item.Image.Url)
 	}
 
-  resp, err := http.Get(backgroundUrl)
+	resp, err := http.Get(backgroundUrl)
 
 	if err != nil {
 		return fmt.Errorf("サーバーに接続できませんでした。（%s）", err)
@@ -183,7 +190,7 @@ func DownloadBackground(source Source, level sonolus.LevelInfo, destPath string)
 		return fmt.Errorf("背景が見つかりませんでした。（%d）", resp.StatusCode)
 	}
 
-  file, err := os.Create(path.Join(destPath, "background.png"))
+	file, err := os.Create(path.Join(destPath, "background.png"))
 
 	if err != nil {
 		return fmt.Errorf("ファイルの作成に失敗しました。（%s）", err)
@@ -191,7 +198,7 @@ func DownloadBackground(source Source, level sonolus.LevelInfo, destPath string)
 
 	defer file.Close()
 
-  io.Copy(file, resp.Body)
+	io.Copy(file, resp.Body)
 
 	if err != nil {
 		return fmt.Errorf("ファイルの書き込みに失敗しました。（%s）", err)
