@@ -153,6 +153,8 @@ func origMain(isOptionSpecified bool) {
 		fmt.Printf("\n\033[A\033[2K\r> %s\n", color.GreenString(tmpEnableComboAp))
 		if tmpEnableComboAp == "Y" || tmpEnableComboAp == "y" || tmpEnableComboAp == "" {
 			apCombo = true
+		} else {
+			apCombo = false
 		}
 	}
 	executableDir := filepath.Dir(executablePath)
