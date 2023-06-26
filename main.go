@@ -66,6 +66,10 @@ func origMain(isOptionSpecified bool) {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))
 		return
 	}
+	if chart.Engine.Version != 8 {
+		fmt.Println(color.RedString(fmt.Sprintf("失敗：このエンジンはサポートされていません。（バージョン%d）", chart.Engine.Version)))
+		return
+	}
 
 	fmt.Println(color.GreenString("成功"))
 	fmt.Printf("  %s / %s - %s (Lv. %s)\n",

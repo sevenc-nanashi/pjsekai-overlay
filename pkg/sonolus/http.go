@@ -15,10 +15,15 @@ type LevelInfo struct {
 	Cover         SRL                     `json:"cover"`
 	Data          SRL                     `json:"data"`
 	UseBackground UseItem[BackgroundInfo] `json:"useBackground"`
+	Engine        EngineInfo              `json:"engine"`
 }
 
 type BackgroundInfo struct {
 	Image SRL `json:"image"`
+}
+
+type EngineInfo struct {
+	Version int `json:"version"`
 }
 
 type SRL struct {
