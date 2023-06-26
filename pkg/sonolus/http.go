@@ -10,6 +10,7 @@ type LevelInfo struct {
 	Title         string                  `json:"title"`
 	Artists       string                  `json:"artists"`
 	Author        string                  `json:"author"`
+	Version       int                     `json:"version"`
 	Rating        int                     `json:"rating"`
 	Cover         SRL                     `json:"cover"`
 	Data          SRL                     `json:"data"`
