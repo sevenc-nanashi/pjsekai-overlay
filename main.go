@@ -173,7 +173,9 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("exoファイルを生成中... ")
 
-	err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir)
+  artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\nVo：？   譜面作成：%s", chart.Artists, chart.Author)
+
+  err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir, chart.Title, artists)
 
 	if err != nil {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))
@@ -182,7 +184,7 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Println(color.GreenString("成功"))
 
-	fmt.Println(color.GreenString("\n全ての処理が完了しました。https://github.com/sevenc-nanashi/pjsekai-overlay#readme を参考に、ファイルをAviUtlにインポートして下さい。"))
+	fmt.Println(color.GreenString("\n全ての処理が完了しました。exoファイルをAviUtlにインポートして下さい。"))
 }
 
 func main() {

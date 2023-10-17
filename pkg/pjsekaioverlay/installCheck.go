@@ -33,7 +33,7 @@ func TryInstallObject() bool {
 	aviutlPath = filepath.Dir(aviutlProcess.Fullpath)
 	os.MkdirAll(filepath.Join(aviutlPath, "Plugins", "script"), 0755)
 
-	var sekaiObjPath = filepath.Join(aviutlPath, "Plugins", "script", "@プロセカ.obj")
+	var sekaiObjPath = filepath.Join(aviutlPath, "Plugins", "script", "@pjsekai-overlay.obj")
 	if _, err := os.Stat(sekaiObjPath); err == nil {
 		var sekaiObjFile, _ = os.OpenFile(sekaiObjPath, os.O_RDONLY, 0755)
 		defer sekaiObjFile.Close()
