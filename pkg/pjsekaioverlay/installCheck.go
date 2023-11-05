@@ -31,9 +31,18 @@ func TryInstallObject() bool {
 	}
 	var aviutlPath string
 	aviutlPath = filepath.Dir(aviutlProcess.Fullpath)
-	os.MkdirAll(filepath.Join(aviutlPath, "Plugins", "script"), 0755)
+	var exeditRoot string
+	if _, err := os.Stat(filepath.Join(aviutlPath, "exedit.auf")); os.IsNotExist(err) {
+		exeditRoot = filepath.Join(aviutlPath)
+	} else if _, err := os.Stat(filepath.Join(aviutlPath, "Plugins", "exedit.auf")); os.IsNotExist(err) {
+		exeditRoot = filepath.Join(aviutlPath, "Plugins")
+	} else {
+		return false
+	}
 
-	var sekaiObjPath = filepath.Join(aviutlPath, "Plugins", "script", "@pjsekai-overlay.obj")
+	os.MkdirAll(filepath.Join(exeditRoot, "script"), 0755)
+
+	var sekaiObjPath = filepath.Join(exeditRoot, "script", "@pjsekai-overlay.obj")
 	if _, err := os.Stat(sekaiObjPath); err == nil {
 		var sekaiObjFile, _ = os.OpenFile(sekaiObjPath, os.O_RDONLY, 0755)
 		defer sekaiObjFile.Close()
@@ -43,14 +52,14 @@ func TryInstallObject() bool {
 			return false
 		}
 	}
-  err := os.MkdirAll(filepath.Join(aviutlPath, "Plugins", "script"), 0755)
-  if err != nil {
-    return false
-  }
-  sekaiObjFile, err := os.Create(sekaiObjPath)
-  if err != nil {
-    return false
-  }
+	err := os.MkdirAll(filepath.Join(exeditRoot, "script"), 0755)
+	if err != nil {
+		return false
+	}
+	sekaiObjFile, err := os.Create(sekaiObjPath)
+	if err != nil {
+		return false
+	}
 	defer sekaiObjFile.Close()
 
 	var sekaiObjWriter = transform.NewWriter(sekaiObjFile, japanese.ShiftJIS.NewEncoder())
