@@ -2,8 +2,9 @@
 
 pjsekai-overlay は、プロセカの創作譜面をプロセカ風の動画にするためのオープンソースのツールです。
 
-> **Warning** for English users:
-> This tool is only for Japanese users (as AviUtl is only available in Japanese).
+> **Warning**
+> **for English users:**\
+> This tool is only for Japanese users (as AviUtl is only available in Japanese).\
 > Please do not use this tool, **DO NOT open issues, or request help in Sonolus / Chart Cyanvas Discord servers**.
 
 ## 必須事項
