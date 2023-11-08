@@ -2,6 +2,10 @@
 
 pjsekai-overlay は、プロセカの創作譜面をプロセカ風の動画にするためのオープンソースのツールです。
 
+> **Warning** for English users:
+> This tool is only for Japanese users (as AviUtl is only available in Japanese).
+> Please do not use this tool, **DO NOT open issues, or request help in Sonolus / Chart Cyanvas Discord servers**.
+
 ## 必須事項
 
 - [AviUtl](http://spring-fragrance.mints.ne.jp/aviutl/) + [拡張編集プラグイン](http://spring-fragrance.mints.ne.jp/aviutl/) （[導入方法](https://aviutl.info/dl-innsuto-ru/)）  
@@ -12,7 +16,7 @@ pjsekai-overlay は、プロセカの創作譜面をプロセカ風の動画に�
 
 1. [譜面を作る](https://wiki.purplepalette.net/create-charts)
 2. [Sonolus](https://sonolus.com/)で譜面を撮影する
-   - [FriedPotato](https://fp.sevenc7c.com)、または [Chart Cyanvas](https://cc.sevenc7c.com)で撮影してください。
+   - [Potato Leaves](https://github.com/sevenc-nanashi/potato_leaves)、または [Chart Cyanvas](https://cc.sevenc7c.com)で撮影してください。
    - 「Hide UI」をオンにしてください。
 3. 撮影したプレイ動画のファイルをパソコンに転送する
    - Google Drive など
