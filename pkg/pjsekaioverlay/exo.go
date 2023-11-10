@@ -51,7 +51,7 @@ func WriteExoFiles(assets string, destDir string, title string, description stri
 			continue
 		}
 		if !strings.Contains(replacedExo, mapping[i-1]) {
-      panic(fmt.Sprintf("exoファイルの生成に失敗しました（%sが見つかりません）", mapping[i-1]))
+			panic(fmt.Sprintf("exoファイルの生成に失敗しました（%sが見つかりません）", mapping[i-1]))
 		}
 		replacedExo = strings.ReplaceAll(replacedExo, mapping[i-1], mapping[i])
 	}

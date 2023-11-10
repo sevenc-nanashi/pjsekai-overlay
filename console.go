@@ -17,7 +17,7 @@ func Title() {
         Developed by %s名無し｡(@sevenc-nanashi)%s
         https://github.com/sevenc-nanashi/pjsekai-overlay
       %s-------------------------------------------------------------------------------%s
-    `)) + "\n\n",
+    `))+"\n\n",
 		RgbColorEscape(0x00afc7), ResetEscape(),
 		RgbColorEscape(0x00afc7), ResetEscape(),
 		RgbColorEscape(0x0f6ea3), pjsekaioverlay.Version, ResetEscape(),
@@ -32,10 +32,9 @@ func RgbColorEscape(rgb int) string {
 }
 
 func AnsiColorEscape(color int) string {
-  return fmt.Sprintf("\033[38;5;%dm", color)
+	return fmt.Sprintf("\033[38;5;%dm", color)
 }
 
 func ResetEscape() string {
 	return "\033[0m"
 }
-

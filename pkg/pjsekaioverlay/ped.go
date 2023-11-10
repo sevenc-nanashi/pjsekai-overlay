@@ -160,9 +160,9 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 	sort.SliceStable(noteEntities, func(i, j int) bool {
 		return noteEntities[i].Data[0].Value < noteEntities[j].Data[0].Value
 	})
-  sort.SliceStable(bpmChanges, func(i, j int) bool {
-    return bpmChanges[i].Beat < bpmChanges[j].Beat
-  })
+	sort.SliceStable(bpmChanges, func(i, j int) bool {
+		return bpmChanges[i].Beat < bpmChanges[j].Beat
+	})
 	for _, entity := range noteEntities {
 		weight := WEIGHT_MAP[entity.Archetype]
 		entityCounter += 1

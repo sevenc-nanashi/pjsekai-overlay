@@ -173,9 +173,9 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("exoファイルを生成中... ")
 
-  artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\nVo：？   譜面作成：%s", chart.Artists, chart.Author)
+	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：？   譜面作成：%s", chart.Artists, chart.Author)
 
-  err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir, chart.Title, artists)
+	err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir, chart.Title, artists)
 
 	if err != nil {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))
