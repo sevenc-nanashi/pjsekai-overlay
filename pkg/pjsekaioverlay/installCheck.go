@@ -32,9 +32,9 @@ func TryInstallObject() bool {
 	var aviutlPath string
 	aviutlPath = filepath.Dir(aviutlProcess.Fullpath)
 	var exeditRoot string
-	if _, err := os.Stat(filepath.Join(aviutlPath, "exedit.auf")); os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(aviutlPath, "exedit.auf")); err == nil {
 		exeditRoot = filepath.Join(aviutlPath)
-	} else if _, err := os.Stat(filepath.Join(aviutlPath, "Plugins", "exedit.auf")); os.IsNotExist(err) {
+	} else if _, err := os.Stat(filepath.Join(aviutlPath, "Plugins", "exedit.auf")); err == nil {
 		exeditRoot = filepath.Join(aviutlPath, "Plugins")
 	} else {
 		return false
