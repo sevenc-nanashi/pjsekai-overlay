@@ -174,7 +174,7 @@ func origMain(isOptionSpecified bool) {
 	fmt.Print("exoファイルを生成中... ")
 
 	artists_slice := []string{chart.Artists, "？"}
-	if containslash := strings.Contains(chart.Artists, " / "); containslash {
+	if chartSource.Id == "chart_cyanvas" {
 		artists_slice = strings.Split(chart.Artists, " / ")
 	}
 
