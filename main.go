@@ -173,7 +173,9 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("exoファイルを生成中... ")
 
-	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：？   譜面作成：%s", chart.Artists, chart.Author)
+	artists_slice := strings.Split(chart.Artists, " / ")
+
+	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：%s   譜面作成：%s", artists_slice[0], artists_slice[1], chart.Author)
 
 	err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir, chart.Title, artists)
 
