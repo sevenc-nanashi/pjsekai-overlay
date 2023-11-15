@@ -17,5 +17,6 @@ jobs:
         shell: bash
         run: |
           go vet .
-          [[ -z $(gofmt -l .) ]] || { echo "Go code is not formatted"; exit 1; }
+          go fmt ./...
+          [[ -z $(git status -s) ]] || (echo "Code is not formatted, please run go fmt ./..." && exit 1)
 
