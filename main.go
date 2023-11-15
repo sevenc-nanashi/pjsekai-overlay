@@ -173,7 +173,10 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("exoファイルを生成中... ")
 
-	artists_slice := strings.Split(chart.Artists, " / ")
+	artists_slice := []string{chart.Artists, "？"}
+	if containslash := strings.Contains(chart.Artists, " / "); containslash {
+		artists_slice = strings.Split(chart.Artists, " / ")
+	}
 
 	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：%s   譜面作成：%s", artists_slice[0], artists_slice[1], chart.Author)
 
