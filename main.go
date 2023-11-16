@@ -173,12 +173,12 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("exoファイルを生成中... ")
 
-	composer_vocals := []string{chart.Artists, "？"}
-	if separate_attempt := strings.Split(chart.Artists, " / "); chartSource.Id == "chart_cyanvas" && len(separate_attempt) <= 2 {
-		composer_vocals = separate_attempt
+	composerAndVocals := []string{chart.Artists, "？"}
+	if separateAttempt := strings.Split(chart.Artists, " / "); chartSource.Id == "chart_cyanvas" && len(separate_attempt) <= 2 {
+		composerAndVocals = separateAttempt
 	}
 
-	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：%s   譜面作成：%s", composer_vocals[0], composer_vocals[1], chart.Author)
+	artists := fmt.Sprintf("作詞：？    作曲：%s    編曲：？\r\nVo：%s   譜面作成：%s", composerAndVocals[0], composerAndVocals[1], chart.Author)
 
 	err = pjsekaioverlay.WriteExoFiles(assets, formattedOutDir, chart.Title, artists)
 
