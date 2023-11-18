@@ -174,7 +174,7 @@ func origMain(isOptionSpecified bool) {
 	fmt.Print("exoファイルを生成中... ")
 
 	composerAndVocals := []string{chart.Artists, "？"}
-	if separateAttempt := strings.Split(chart.Artists, " / "); chartSource.Id == "chart_cyanvas" && len(separate_attempt) <= 2 {
+	if separateAttempt := strings.Split(chart.Artists, " / "); chartSource.Id == "chart_cyanvas" && len(separateAttempt) <= 2 {
 		composerAndVocals = separateAttempt
 	}
 
