@@ -2,18 +2,68 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/fatih/color"
+	"github.com/google/go-github/v57/github"
 	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/pjsekaioverlay"
 	"github.com/srinathh/gokilo/rawmode"
 	"golang.org/x/sys/windows"
 )
+
+func shouldCheckUpdate() bool {
+	executablePath, err := os.Executable()
+	if err != nil {
+		return false
+	}
+	updateCheckFile, err := os.OpenFile(filepath.Join(filepath.Dir(executablePath), ".update-check"), os.O_RDONLY, 0666)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return true
+		}
+		return false
+	}
+	defer updateCheckFile.Close()
+
+	scanner := bufio.NewScanner(updateCheckFile)
+	scanner.Scan()
+	lastCheckTime, err := strconv.ParseInt(scanner.Text(), 10, 64)
+	if err != nil {
+		return false
+	}
+
+	return time.Now().Unix()-lastCheckTime > 60*60*24
+}
+
+func checkUpdate() {
+	githubClient := github.NewClient(nil)
+	release, _, err := githubClient.Repositories.GetLatestRelease(context.Background(), "sevenc-nanashi", "pjsekai-overlay")
+	if err != nil {
+		return
+	}
+
+	executablePath, err := os.Executable()
+	updateCheckFile, err := os.OpenFile(filepath.Join(filepath.Dir(executablePath), ".update-check"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		return
+	}
+	defer updateCheckFile.Close()
+	updateCheckFile.WriteString(strconv.FormatInt(time.Now().Unix(), 10))
+
+	latestVersion := strings.TrimPrefix(release.GetTagName(), "v")
+	if latestVersion == pjsekaioverlay.Version {
+		return
+	}
+	fmt.Printf("新しいバージョンがリリースされています：v%s -> v%s\n", pjsekaioverlay.Version, latestVersion)
+	fmt.Printf("ダウンロード：%s\n", release.GetHTMLURL())
+}
 
 func origMain(isOptionSpecified bool) {
 	Title()
@@ -36,6 +86,10 @@ func origMain(isOptionSpecified bool) {
 	}
 
 	flag.Parse()
+
+	if shouldCheckUpdate() {
+		checkUpdate()
+	}
 
 	if !skipAviutlInstall {
 		success := pjsekaioverlay.TryInstallObject()
