@@ -243,7 +243,7 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Println(color.GreenString("成功"))
 
-	fmt.Println(color.GreenString("\n全ての処理が完了しました。exoファイルをAviUtlにインポートして下さい。"))
+	fmt.Println(color.GreenString("\n全ての処理が完了しました。READMEの規約を確認した上で、exoファイルをAviUtlにインポートして下さい。"))
 }
 
 func main() {
