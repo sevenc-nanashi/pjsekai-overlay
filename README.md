@@ -9,8 +9,9 @@ pjsekai-overlay は、プロセカの創作譜面をプロセカ風の動画に�
 
 ## 必須事項
 
-- [AviUtl](http://spring-fragrance.mints.ne.jp/aviutl/) + [拡張編集プラグイン](http://spring-fragrance.mints.ne.jp/aviutl/) （[導入方法](https://aviutl.info/dl-innsuto-ru/)）  
+- [AviUtl](http://spring-fragrance.mints.ne.jp/aviutl/) + [拡張編集プラグイン](http://spring-fragrance.mints.ne.jp/aviutl/) （[導入方法](https://aviutl.info/dl-innsuto-ru/)）
   （強く推奨：[patch.aul](https://scrapbox.io/ePi5131/patch.aul)）
+- [AVIUtl_Unmult](https://github.com/mes51/AVIUtl_Unmult)
 - AviUtlの基本的な知識
 
 ## 動画の作り方
