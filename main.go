@@ -120,7 +120,7 @@ func origMain(isOptionSpecified bool) {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))
 		return
 	}
-	if chart.Engine.Version != 11 {
+	if chart.Engine.Version != 12 {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：このエンジンはサポートされていません。（バージョン%d）", chart.Engine.Version)))
 		return
 	}
