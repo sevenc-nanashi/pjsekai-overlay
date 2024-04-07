@@ -48,21 +48,7 @@ func FetchChart(source Source, chartId string) (sonolus.LevelInfo, error) {
 
 func DetectChartSource(chartId string) (Source, error) {
 	var source Source
-	if strings.HasPrefix(chartId, "sweet-potato-") {
-		source = Source{
-			Id:    "sweetpotato",
-			Name:  "SweetPotato",
-			Color: 0x9c27b0,
-			Host:  "servers.purplepalette.net",
-		}
-	} else if strings.HasPrefix(chartId, "frpt-") {
-		source = Source{
-			Id:    "friedpotato",
-			Name:  "FriedPotato",
-			Color: 0xcda879,
-			Host:  "fp.sevenc7c.com",
-		}
-	} else if strings.HasPrefix(chartId, "ptlv-") {
+	if strings.HasPrefix(chartId, "ptlv-") {
 		source = Source{
 			Id:    "potato_leaves",
 			Name:  "Potato Leaves",
@@ -172,11 +158,7 @@ func DownloadCover(source Source, level sonolus.LevelInfo, destPath string) erro
 func DownloadBackground(source Source, level sonolus.LevelInfo, destPath string) error {
 	var backgroundUrl string
 	var err error
-	if source.Id == "sweetpotato" {
-		backgroundUrl = fmt.Sprintf("https://image-gen.sevenc7c.com/generate/%s", level.Name)
-	} else {
-		backgroundUrl, err = sonolus.JoinUrl("https://"+source.Host, level.UseBackground.Item.Image.Url)
-	}
+	backgroundUrl, err = sonolus.JoinUrl("https://"+source.Host, level.UseBackground.Item.Image.Url)
 
 	resp, err := http.Get(backgroundUrl)
 
