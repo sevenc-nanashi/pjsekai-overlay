@@ -28,7 +28,7 @@ var WEIGHT_MAP = map[string]float64{
 	"Stage":          0,
 
 	"NormalTapNote":   1,
-	"CriticalTapNote": 3,
+	"CriticalTapNote": 2,
 
 	"NormalFlickNote":   1,
 	"CriticalFlickNote": 3,
@@ -44,11 +44,11 @@ var WEIGHT_MAP = map[string]float64{
 
 	"HiddenSlideTickNote":   0,
 	"NormalSlideTickNote":   0.1,
-	"CriticalSlideTickNote": 0.1,
+	"CriticalSlideTickNote": 0.2,
 
 	"IgnoredSlideTickNote":          0.1,
 	"NormalAttachedSlideTickNote":   0.1,
-	"CriticalAttachedSlideTickNote": 0.1,
+	"CriticalAttachedSlideTickNote": 0.2,
 
 	"NormalSlideConnector":   0,
 	"CriticalSlideConnector": 0,
@@ -65,7 +65,7 @@ var WEIGHT_MAP = map[string]float64{
 	"CriticalSlotGlowEffect": 0,
 
 	"NormalTraceNote":   0.1,
-	"CriticalTraceNote": 0.1,
+	"CriticalTraceNote": 0.2,
 
 	"NormalTraceSlotEffect":     0,
 	"NormalTraceSlotGlowEffect": 0,
@@ -74,14 +74,14 @@ var WEIGHT_MAP = map[string]float64{
 	"DamageSlotEffect":     0,
 	"DamageSlotGlowEffect": 0,
 
-	"NormalTraceFlickNote":         0.5,
-	"CriticalTraceFlickNote":       0.5,
-	"NonDirectionalTraceFlickNote": 0.5,
+	"NormalTraceFlickNote":         1,
+	"CriticalTraceFlickNote":       3,
+	"NonDirectionalTraceFlickNote": 1,
 
 	"NormalTraceSlideStartNote":   0.1,
 	"NormalTraceSlideEndNote":     0.1,
-	"CriticalTraceSlideStartNote": 0.1,
-	"CriticalTraceSlideEndNote":   0.1,
+	"CriticalTraceSlideStartNote": 0.2,
+	"CriticalTraceSlideEndNote":   0.2,
 
 	"TimeScaleGroup":  0,
 	"TimeScaleChange": 0,
@@ -133,6 +133,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 	frames = append(frames, PedFrame{Time: 0, Score: 0})
 	bpmChanges := ([]BpmChange{})
 	levelFax := float64(rating-5)*0.005 + 1
+	comboFax := 1.0
 
 	score := 0
 	entityCounter := 0
@@ -166,6 +167,12 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 	for _, entity := range noteEntities {
 		weight := WEIGHT_MAP[entity.Archetype]
 		entityCounter += 1
+		if entityCounter%100 == 0 {
+			comboFax += 0.01
+		}
+		if comboFax > 1.1 {
+			comboFax = 1.1
+		}
 
 		score += int(
 			(float64(power) / weightedNotesCount) * // Team power / weighted notes count
@@ -173,7 +180,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 				weight * // Note weight
 				1 * // Judge weight (Always 1)
 				levelFax * // Level fax
-				(float64(entityCounter/100)/100 + 1) * // Combo fax
+				comboFax * // Combo fax
 				1, // Skill fax (Always 1)
 		)
 		beat, err := getValueFromData(entity.Data, "#BEAT")
@@ -192,7 +199,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 func WritePedFile(frames []PedFrame, assets string, ap bool, path string) error {
 	file, err := os.Create(path)
 	if err != nil {
-		return fmt.Errorf("ファイルの作成に失敗しました（%s）", err)
+		return fmt.Errorf("ファイルの作成に失敗しました (Failed to create file.) [%s]", err)
 	}
 	defer file.Close()
 
