@@ -199,7 +199,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 func WritePedFile(frames []PedFrame, assets string, ap bool, path string) error {
 	file, err := os.Create(path)
 	if err != nil {
-		return fmt.Errorf("ファイルの作成に失敗しました (Failed to create file.) [%s]", err)
+		return fmt.Errorf("ファイルの作成に失敗しました（%s）", err)
 	}
 	defer file.Close()
 
