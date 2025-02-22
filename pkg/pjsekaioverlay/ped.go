@@ -223,24 +223,17 @@ func WritePedFile(frames []PedFrame, assets string, ap bool, path string, levelI
 		scoreX := 0.0
 
 		// rank
+		if rating < 5 {
+			rating = 5
+		} else if rating > 40 {
+			rating = 40
+		}
+
 		rankBorder := 1200000 + (rating-5)*4100
 		rankS := 1040000 + (rating-5)*5200
 		rankA := 840000 + (rating-5)*4200
 		rankB := 400000 + (rating-5)*2000
 		rankC := 20000 + (rating-5)*100
-		if rating < 5 {
-			rankBorder = 1200000
-			rankS = 1040000
-			rankA = 840000
-			rankB = 400000
-			rankC = 20000
-		} else if rating > 40 {
-			rankBorder = 1343500
-			rankS = 1222000
-			rankA = 987000
-			rankB = 470000
-			rankC = 23500
-		}
 
 		// bar
 		if score >= rankBorder {
