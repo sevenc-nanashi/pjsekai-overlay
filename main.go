@@ -14,6 +14,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/google/go-github/v57/github"
 	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/pjsekaioverlay"
+	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/sonolus"
 	"github.com/srinathh/gokilo/rawmode"
 	"golang.org/x/sys/windows"
 )
