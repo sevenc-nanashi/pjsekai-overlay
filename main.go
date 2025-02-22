@@ -14,6 +14,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/google/go-github/v57/github"
 	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/pjsekaioverlay"
+	"github.com/sevenc-nanashi/pjsekai-overlay/pkg/sonolus"
 	"github.com/srinathh/gokilo/rawmode"
 	"golang.org/x/sys/windows"
 )
@@ -216,7 +217,7 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("pedファイルを生成中... ")
 
-	err = pjsekaioverlay.WritePedFile(scoreData, assets, apCombo, filepath.Join(formattedOutDir, "data.ped"))
+	err = pjsekaioverlay.WritePedFile(scoreData, assets, apCombo, filepath.Join(formattedOutDir, "data.ped"), sonolus.LevelInfo{Rating: chart.Rating})
 
 	if err != nil {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))

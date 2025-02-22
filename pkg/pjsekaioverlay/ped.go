@@ -196,7 +196,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 	return frames
 }
 
-func WritePedFile(frames []PedFrame, assets string, ap bool, path string) error {
+func WritePedFile(frames []PedFrame, assets string, ap bool, path string, levelInfo sonolus.LevelInfo) error {
 	file, err := os.Create(path)
 	if err != nil {
 		return fmt.Errorf("ファイルの作成に失敗しました（%s）", err)
@@ -211,6 +211,7 @@ func WritePedFile(frames []PedFrame, assets string, ap bool, path string) error 
 	writer.Write([]byte(fmt.Sprintf("u|%d\n", time.Now().Unix())))
 
 	lastScore := 0
+	rating := levelInfo.Rating
 	for i, frame := range frames {
 		score := frame.Score
 		frameScore := score - lastScore
@@ -220,24 +221,39 @@ func WritePedFile(frames []PedFrame, assets string, ap bool, path string) error 
 
 		rank := "n"
 		scoreX := 0.0
-		if score >= 1300000 {
+
+		// rank
+		if rating < 5 {
+			rating = 5
+		} else if rating > 40 {
+			rating = 40
+		}
+
+		rankBorder := 1200000 + (rating-5)*4100
+		rankS := 1040000 + (rating-5)*5200
+		rankA := 840000 + (rating-5)*4200
+		rankB := 400000 + (rating-5)*2000
+		rankC := 20000 + (rating-5)*100
+
+		// bar
+		if score >= rankBorder {
 			rank = "s"
 			scoreX = 357
-		} else if score >= 1165000 {
+		} else if score >= rankS {
 			rank = "s"
-			scoreX = float64((score-1165000))/(1300000-1165000)*37 + 320
-		} else if score >= 940000 {
+			scoreX = (float64((score-rankS))/float64((rankBorder-rankS)))*37 + 320
+		} else if score >= rankA {
 			rank = "a"
-			scoreX = float64((score-940000))/(1165000-940000)*53 + 267
-		} else if score >= 434000 {
+			scoreX = (float64((score-rankA))/float64((rankS-rankA)))*53 + 267
+		} else if score >= rankB {
 			rank = "b"
-			scoreX = float64((score-434000))/(940000-434000)*53 + 215
-		} else if score >= 21500 {
+			scoreX = (float64((score-rankB))/float64((rankA-rankB)))*53 + 215
+		} else if score >= rankC {
 			rank = "c"
-			scoreX = float64((score-21500))/(434000-21500)*54 + 161
-		} else if score >= 0 {
+			scoreX = (float64((score-rankC))/float64((rankB-rankC)))*54 + 161
+		} else {
 			rank = "d"
-			scoreX = float64(score) / 21500 * 160
+			scoreX = (float64(score) / float64(rankC)) * 160
 		}
 
 		writer.Write([]byte(fmt.Sprintf("s|%f:%d:%d:%f:%s:%d\n", frame.Time, score, frameScore, scoreX/357, rank, i)))
