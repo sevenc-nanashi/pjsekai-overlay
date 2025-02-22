@@ -216,7 +216,7 @@ func origMain(isOptionSpecified bool) {
 
 	fmt.Print("pedファイルを生成中... ")
 
-	err = pjsekaioverlay.WritePedFile(scoreData, assets, apCombo, filepath.Join(formattedOutDir, "data.ped"))
+	err = pjsekaioverlay.WritePedFile(scoreData, assets, apCombo, filepath.Join(formattedOutDir, "data.ped"), sonolus.LevelInfo{Rating: chart.Rating})
 
 	if err != nil {
 		fmt.Println(color.RedString(fmt.Sprintf("失敗：%s", err.Error())))
