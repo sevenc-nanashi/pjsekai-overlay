@@ -141,7 +141,7 @@ if PED_DATA and PED_DATA.version_status == "ok" then
 
 
   -- -127, 27, +22
-  local score_str = string.format( "%8d", PED_DATA.current.score ):gsub(" ", "n")
+  local score_str = string.format( "%8.0f", PED_DATA.current.score ):gsub(" ", "n")
 
   for c = 1, 8 do
     local digit = score_str:sub(c, c)
@@ -173,7 +173,7 @@ if PED_DATA and PED_DATA.version_status == "ok" then
   if PED_DATA.current.offset > 0 and progress_frame <= 40 then
     local progress = (progress_frame / 12)
 
-    local diff = tostring(PED_DATA.current.offset)
+    local diff = string.format("%.0f", PED_DATA.current.offset)
     local diff_len = string.len(diff)
 
 
