@@ -179,7 +179,7 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 				1 * // Judge weight (Always 1)
 				levelFax * // Level fax
 				comboFax * // Combo fax
-				1, // Skill fax (Always 1)
+				1 // Skill fax (Always 1)
 		)
 		beat, err := getValueFromData(entity.Data, "#BEAT")
 		if err != nil {
