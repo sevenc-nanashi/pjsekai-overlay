@@ -172,15 +172,13 @@ func CalculateScore(levelInfo sonolus.LevelInfo, levelData sonolus.LevelData, po
 			comboFax = 1.1
 		}
 
-		score += (
-			(float64(power) / weightedNotesCount) * // Team power / weighted notes count
+		score += ((float64(power) / weightedNotesCount) * // Team power / weighted notes count
 				4 * // Constant
 				weight * // Note weight
 				1 * // Judge weight (Always 1)
 				levelFax * // Level fax
 				comboFax * // Combo fax
-				1 // Skill fax (Always 1)
-		)
+				1) // Skill fax (Always 1)
 		beat, err := getValueFromData(entity.Data, "#BEAT")
 		if err != nil {
 			continue
@@ -253,8 +251,13 @@ func WritePedFile(frames []PedFrame, assets string, ap bool, path string, levelI
 			rank = "d"
 			scoreX = (float64(score) / float64(rankC)) * 160
 		}
-
-		writer.Write([]byte(fmt.Sprintf("s|%f:%f:%f:%f:%s:%d\n", frame.Time, score, frameScore, scoreX/357, rank, i)))
+		
+		time := frame.Time
+		if time == 0 && i > 0 {
+			time = frames[i-1].Time + 0.000001
+		}
+		
+		writer.Write([]byte(fmt.Sprintf("s|%f:%f:%f:%f:%s:%d\n", time, score, frameScore, scoreX/357, rank, i)))
 	}
 
 	return nil
